@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+Cart
+{% endblock %}
+
+{% block content %}
+{% if data | length == 0 %}
+<h3>Your Cart is Empty</h3>
+{% else %}
+<h3>In Your Cart You have</h3>
+{% for cart, item in data %}
+<div class="card mb-3" style="max-width: 820px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="https://2.bp.blogspot.com/-CK6EN7xY2JY/T4k9fmdGJ7I/AAAAAAAAGDs/7YHvdNa-fbs/s1600/cute-puppy-wallpapers+(1).jpg"
+                class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body d-grid">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <span class="my-1 mx-1"><b class="card-title">Price:</b> {{ item.unit_price }}</span>
+                <div class="d-flex">
+                    <span class="my-1 mx-1"><b class="card-title">Quantity:</b></span>
+                    <button type="button" class="btn btn-sm btn-outline-dark"><i class="bi bi-dash"></i></button>
+                    <input type="text" class="form-control mx-1" style="width:40px;" value={{ cart.desired_quantity }}>
+                    <form method="POST" action="/increment/{{item.id}}">
+                      <button type="button" class="btn btn-sm btn-outline-dark"><i class="bi bi-plus"></i></button>
+                    </form>
+                </div>
+                <span class="my-1 mx-1"><b class="card-text">Subtotal:</b> {{ item.unit_price *
+                    cart.desired_quantity}}</span>
+                <form method="POST" action="/remove-from-cart/{{cart.id}}">
+                    {{ delete_from_cart_form.hidden_tag() }}
+                    {{ delete_from_cart_form.submit(class="btn btn-danger") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
