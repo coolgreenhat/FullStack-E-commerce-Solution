@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+Welcome
+{% endblock %}
+
+{% block content %}
+<div class="card mb-3 shadow-lg p-3 mb-5 bg-body rounded" style="max-width: 1000px; height: 300px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ user.avatar(250) }}" class="rounded float-start">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body d-grid">
+        <h5 class="card-title">{{user.username}}</h5>
+        <span class="my-1"><b class="card-title"></b> {{user.email}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

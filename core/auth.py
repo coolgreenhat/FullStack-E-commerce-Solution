@@ -1,6 +1,6 @@
-from flask import Blueprint,render_template, request, flash, redirect,url_for
+from flask import Blueprint,render_template, request, flash, redirect,url_for, session
 from core.forms import LoginForm, RegistrationForm
-from .models import Users
+from .models import User
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
@@ -15,9 +15,9 @@ def login():
         password = request.form.get('password')
         login_string = request.form.get('email')
         user = None
-        user = Users.query.filter_by(username=login_string).first()
+        user = User.query.filter_by(username=login_string).first()
         if user is None:
-            user = Users.query.filter_by(email=login_string).first()
+            user = User.query.filter_by(email=login_string).first()
 
         if user:
             if check_password_hash(user.password, password):
@@ -33,32 +33,31 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    session = None
     logout_user()
     flash('You are logged Out.', category="success")
     return redirect(url_for('auth.login'))
 
 @auth.route('/register',methods=['GET', 'POST'])
 def signup():
+    session = {}
     form = RegistrationForm()
     if request.method == 'POST':
         try:
+            username = request.form.get('username')
+            password1 = request.form.get('password')
+            password2 = request.form.get('password2')
+            session['username'] = username
+            session['password1'] = password1
+            session['password2'] = password2
             emailid = request.form.get('email')
+            session['emailid'] = emailid
             email = validate_email(emailid).email
         except EmailNotValidError as e:
             flash(str(e), category="warning")
-            return redirect(url_for('auth.login'))
+            return render_template("register.html", form=form, session=session)
 
-        username = request.form.get('username')
-        password1 = request.form.get('password')
-        password2 = request.form.get('password2')
-
-        user = Users.query.filter_by(username=username,email=email).first()
-        print("===================")
-        print(email)
-        print(username)
-        print(password1)
-        print(password2)
-        print("===================")
+        user = User.query.filter_by(username=username,email=email).first()
 
         if user:
             flash("User with that email or username already exists.", category="warning")
@@ -71,11 +70,10 @@ def signup():
         elif len(password1) < 8:
             flash('Passwords too short', category="warning")
         else:
-            new_user = Users(email=email, username=username, password=generate_password_hash(password1, method='sha256'))
+            new_user = User(email=email, username=username, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             # login_user(new_user, remember=True)
             flash('Account Created. Please Login to continue', category="success")
             return redirect(url_for('auth.login'))
-
-    return render_template("register.html", form=form)
+    return render_template("register.html", form=form, session=session)
