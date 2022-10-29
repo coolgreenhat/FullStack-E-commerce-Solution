@@ -33,7 +33,7 @@ class AddToCartForm(FlaskForm):
 
 class DeleteFromCartFrom(FlaskForm):
     quantity = IntegerField('Quantity',default=1,validators=[DataRequired()])
-    submit = SubmitField('Remove')
+    submit = SubmitField('Remove From Cart')
 
 class CreateProductForm(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired(), Length(1, 100)])
