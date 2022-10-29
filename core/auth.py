@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template, request, flash, redirect,url_for, session
+from flask import Blueprint, render_template, request, flash, redirect,url_for, session
 from core.forms import LoginForm, RegistrationForm
 from .models import User
 from . import db
@@ -30,10 +30,10 @@ def login():
             flash('User Does not exist.', category='error')
     return render_template("login.html", user=current_user, form=form)
 
-@auth.route('/logout')
 @login_required
+@auth.route('/logout')
 def logout():
-    session = None
+    #session.clear()
     logout_user()
     flash('You are logged Out.', category="success")
     return redirect(url_for('auth.login'))
