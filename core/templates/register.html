@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} Register{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex justify-content-center">
+    <h1>Register</h1>
+</div>
+<div class="d-flex justify-content-center">
+    {% for field in form %}
+    {% set field = session[field.label] %}
+    {% endfor %}
+    {{ wtf.quick_form(form, button_map={"submit":"primary"}) }}
+    <br>
+</div>
+{% endblock %}

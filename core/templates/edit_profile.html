@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+Edit Profile
+{% endblock %}
+
+{% block content %}
+<div class="d-flex">
+<img src="{{ user.avatar(128) }}" class="rounded float-start">
+  <div class="ml-2">
+    <a href="/profile/edit/"></a>
+    <h3>{{user.username}}</h3>
+    <h4>{{user.email}}</h4>
+  </div>
+</div>
+{% endblock %}

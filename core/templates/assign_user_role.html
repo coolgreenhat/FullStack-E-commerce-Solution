@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+Assign User Role
+{% endblock %}
+
+{% block content %}
+    {{ assign_user_role_form.hidden_tag() }}
+    <div>
+        <h5>{{ assign_user_role_form.user.label}}</h5>
+        {{ assign_user_role_form.user}}
+    </div>
+    <div>
+        <h5>{{ assign_user_role_form.role.label}}</h5>
+        {{ assign_user_role_form.role}}
+    </div>
+    <div>{{ assign_user_role_form.is_active}} {{assign_user_role_form.is_active.label}}</div>
+
+{% endblock %}

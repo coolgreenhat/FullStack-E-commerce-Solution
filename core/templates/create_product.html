@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}
+Cart
+{% endblock %}
+
+{% block content %}
+<h3 class="align-center">Create Product</h3>
+<form method="POST" class="p-auto m-auto">
+    {{ create_product_form.hidden_tag() }}
+    <div class="form-control">
+        <div class="mb-2">
+            <b class="pb-2">{{ create_product_form.name.label }} :</b>
+            <span>{{ create_product_form.name(class="form-control") }}</span>
+        </div>
+        <div class="mb-2">
+            <b class="pb-2">{{ create_product_form.description.label }} :</b>
+            <span>{{ create_product_form.description(class="form-control") }}</span>
+        </div>
+        <div class="mb-2">
+            <b>{{ create_product_form.category.label }} :</b>
+            <span>{{ create_product_form.category(class="form-control") }}</span>
+        </div>
+        <div class="mb-2">
+            <b>{{ create_product_form.stock.label }} : </b>
+            <div class="col-2">{{ create_product_form.stock(class="form-control") }}</div>
+        </div>
+        <div class="mb-2">
+            <b>{{ create_product_form.unit_price.label }}: </b>
+            <div class="col-2">{{ create_product_form.unit_price(class="form-control") }}</div>
+        </div>
+        <div class="mb-2">
+            {{ create_product_form.visibility }}
+            <b>{{ create_product_form.visibility.label }}</b>
+        </div>
+        <div class="m-1">
+            {{ create_product_form.submit(class="btn btn-success btn-lg")}}
+        </div>
+    </div>
+
+</form>
+{% endblock %}
