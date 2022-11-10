@@ -8,6 +8,7 @@ from . import db
 views = Blueprint('views', __name__)
 
 @views.route('/',methods=['GET'])
+@fresh_login_required
 @login_required
 def home_page():
     add_to_cart_form = AddToCartForm()

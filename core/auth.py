@@ -33,7 +33,7 @@ def login():
 @login_required
 @auth.route('/logout')
 def logout():
-    #session.clear()
+    session.clear()
     logout_user()
     flash('You are logged Out.', category="success")
     return redirect(url_for('auth.login'))

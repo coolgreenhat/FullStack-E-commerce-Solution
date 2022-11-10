@@ -46,10 +46,13 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    # @app.after_request
-    # def add_header(response):
-        # response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-   
+    @app.after_request
+    def add_header(response):
+        # This cache configuration prevents login using browser back button
+        # After logout
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        return response
+
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
