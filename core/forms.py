@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, TextAreaField, SelectField ,HiddenField
 from wtforms.validators import DataRequired, Length, Email , EqualTo, Regexp, NumberRange
 from wtforms import ValidationError
 from core.models import User
@@ -31,9 +31,19 @@ class AddToCartForm(FlaskForm):
     quantity = IntegerField('Quantity',default=1,validators=[DataRequired()])
     submit = SubmitField('Add To Cart')
 
-class DeleteFromCartFrom(FlaskForm):
+class DeleteFromCartForm(FlaskForm):
     quantity = IntegerField('Quantity',default=1,validators=[DataRequired()])
     submit = SubmitField('Remove From Cart')
+
+class EmptyCartForm(FlaskForm):
+    quantity = IntegerField('Quantity',default=1,validators=[DataRequired()])
+    submit = SubmitField('Yes')
+
+class ConfirmPaymentForm(FlaskForm):
+    payment_method = SelectField(u'Select Payment Method',choices=[('cod','Cash On Delivery'),('visa','Visa'),('masterCard','MasterCard'),('upi','UPI')])
+    payment_amount = IntegerField('Payment Amount',validators=[DataRequired()])
+    shipping_address = TextAreaField('Shipping Address', validators=[DataRequired(), Length(1, 255)])
+    submit = SubmitField('Yes')
 
 class CreateProductForm(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired(), Length(1, 100)])

@@ -17,14 +17,16 @@ class Cart(db.Model):
     modified = db.Column(db.DateTime(timezone=True), default=func.now())
     products = db.relationship("Product", back_populates="carts", lazy="select")
     users = db.relationship("User",back_populates="carts", lazy="select")
+    __table_args__ = (db.UniqueConstraint('product_id','user_id',name="__product_user_uc"),)
 
     def __repr__(self) -> str:
         return f'{self.id}'
-    
+
 class Product(db.Model):
     __tablename__ = 'products'
 
     id = db.Column(db.Integer(), primary_key=True)
+    image_url = db.Column(db.String(),nullable=False,unique=True)
     name = db.Column(db.String(length=50), nullable=False, unique=True)
     description = db.Column(db.Text(), nullable=False)
     category = db.Column(db.String(length=30), nullable=False)
